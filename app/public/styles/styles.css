@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+[data-testid="stSidebar"] .element-container {
+    margin-bottom: 16px !important;
+}
+
+[data-testid="stSidebar"] * {
+    font-size: 1.08rem !important;
+}
