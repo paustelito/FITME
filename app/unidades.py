@@ -1,4 +1,3 @@
-# app/unidades.py
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -16,15 +15,20 @@ def load_data():
     df_full = pd.read_csv("../data/unidades/df_full.csv")
     efecto_unidad = pd.read_csv("../data/unidades/efecto_por_unidad.csv")
     matriz_explained = pd.read_csv("../data/unidades/matriz_asignacion_explained.csv")
+    # Categorización de rutas
+    rutas_catalogo = pd.read_csv("../data/rutas_categorias.csv", usecols=["Ruta", "Categoria_Oficial"])
 
     # Confirmar tipos de datos
     df_compare["Fecha"] = pd.to_datetime(df_compare["Fecha"], errors="coerce")
     df_full["Fecha"] = pd.to_datetime(df_full["Fecha"], errors="coerce")
     sim_df["Fecha"] = pd.to_datetime(sim_df["Fecha"], errors="coerce")
 
-    return df_compare, sim_df, matriz, efecto_unidad, df_full, matriz_explained
+    return df_compare, sim_df, matriz, efecto_unidad, df_full, matriz_explained, rutas_catalogo
 
-df_compare, sim_df, matriz, efecto_unidad, df_full, matriz_explained = load_data()
+df_compare, sim_df, matriz, efecto_unidad, df_full, matriz_explained, rutas_catalogo = load_data()
+
+# Montar filtro categorización
+sim_df = sim_df.merge(rutas_catalogo, on="Ruta", how="left")
 
 # Filtros
 with st.sidebar:
@@ -43,10 +47,30 @@ with st.sidebar:
     except Exception:
         date_default = (pd.to_datetime(min_date).date(), pd.to_datetime(max_date).date())
     
-    st.markdown("Opciones visuales")
-    show_bars = st.checkbox("Mostrar barra de reasignación", value=True)
+    st.markdown("Filtros")
+    categorias = sorted(
+        [c for c in rutas_catalogo["Categoria_Oficial"].dropna().unique() if c != "Error"]
+    )
+
+    categoria_seleccionada = st.multiselect(
+        "Seleccionar una categoría",
+        options=categorias,
+        default=categorias,
+        placeholder="Selecciona una categoría"
+    )
+
+    st.markdown("Opciones")
+    show_bars = st.checkbox("Mostrar gráfica de barras", value=True)
     show_sankey = st.checkbox("Mostrar Sankey", value=False)
     top_n_flows = st.slider("Top flujos para Sankey", min_value=5, max_value=50, value=25)
+
+df_filtered = sim_df.copy()
+
+if len(categoria_seleccionada) == 0:
+    st.warning("No se seleccionó ninguna categoría — no hay datos.")
+    df_filtered = sim_df.iloc[0:0]
+else:
+    df_filtered = sim_df[sim_df['Categoria_Oficial'].isin(categoria_seleccionada)]
 
 # KPIs
 if 'ralenti_h_sim' in df_compare.columns:
@@ -70,7 +94,7 @@ k3.metric("Reducción Total", f"{reduccion:,.2f} h", f"{pct:.2f}%")
 st.markdown("---")
 
 # Real vs Predicción
-st.subheader("📈 Ralentí Real vs Predicción")
+st.subheader("Ralentí Real vs Predicción")
 if 'pred' not in df_full.columns:
     st.warning("No se encontró columna 'pred' en model_predictions. Mostraré solo la serie real.")
     fig_real_pred = px.line(df_full, x="Fecha", y="ralenti_total_h", labels={'ralenti_total_h':'Horas de ralentí'})
@@ -89,7 +113,7 @@ col_left, col_right = st.columns([1.2, 1])
 with col_left:
     st.subheader("Matriz de Reasignación")
     st.write("Filas = Unidad histórica (Old). Columnas = Unidad sugerida (New). Valores = número de rutas (o horas trasladadas).")
-    pivot_fallback = sim_df.groupby(['OldUnidad','NewUnidad']).size().unstack(fill_value=0)
+    pivot_fallback = df_filtered.groupby(['OldUnidad','NewUnidad']).size().unstack(fill_value=0)
     st.dataframe(pivot_fallback.style.format("{:,.0f}"))
 
 with col_right:
@@ -100,15 +124,14 @@ with col_right:
         hide_index=True
     )
 
-
 st.subheader("Efecto por Unidad")
 # Asegurar efecto_unidad tiene datos
 if isinstance(efecto_unidad, pd.DataFrame) and not efecto_unidad.empty:
     ef = efecto_unidad.copy()
 else:
     # fallback
-    antes_u = sim_df.groupby('OldUnidad', as_index=False)['ruta_ralenti_est_h'].sum().rename(columns={'OldUnidad':'Unidad','ruta_ralenti_est_h':'ralenti_antes'})
-    despues_u = sim_df.groupby('NewUnidad', as_index=False)['ruta_ralenti_est_h'].sum().rename(columns={'NewUnidad':'Unidad','ruta_ralenti_est_h':'ralenti_despues'})
+    antes_u = df_filtered.groupby('OldUnidad', as_index=False)['ruta_ralenti_est_h'].sum().rename(columns={'OldUnidad':'Unidad','ruta_ralenti_est_h':'ralenti_antes'})
+    despues_u = df_filtered.groupby('NewUnidad', as_index=False)['ruta_ralenti_est_h'].sum().rename(columns={'NewUnidad':'Unidad','ruta_ralenti_est_h':'ralenti_despues'})
     ef = pd.merge(antes_u, despues_u, on='Unidad', how='outer').fillna(0.0)
     ef['Reduccion'] = ef['ralenti_antes'] - ef['ralenti_despues']
     ef = ef[['Unidad','Reduccion']].sort_values('Reduccion', ascending=False)
@@ -127,8 +150,6 @@ st.markdown("---")
 
 # Reasignaciones por Ruta
 st.subheader("Reasignaciones por Ruta")
-
-df_filtered = sim_df.copy()
 
 # Asegurar tipo de dato
 df_filtered['Fecha'] = pd.to_datetime(df_filtered['Fecha'], errors='coerce')
@@ -170,11 +191,10 @@ else:
 
     # Alternativa si es muy lento
     if show_bars:
-        st.markdown("**Reasignación (gráfica de barras):**")
         top_routes = flow_counts.groupby('Ruta')['count'].sum().sort_values(ascending=False).head(12).index.tolist()
         stacked_df = flow_counts[flow_counts['Ruta'].isin(top_routes)]
         if not stacked_df.empty:
-            fig_stack = px.bar(stacked_df, x='Ruta', y='count', color='NewUnidad', title="Top rutas: reasignaciones (apilado)")
+            fig_stack = px.bar(stacked_df, x='Ruta', y='count', color='NewUnidad', title="Top rutas reasignadas")
             fig_stack.update_layout(barmode='stack', height=450)
             st.plotly_chart(fig_stack, use_container_width=True)
         else:
@@ -182,7 +202,6 @@ else:
 
     # Sankey
     if show_sankey:
-        st.markdown("**Sankey (Top flujos)**")
         top_n = max(5, min(200, top_n_flows))
         top_flows = flow_counts.head(top_n)
 

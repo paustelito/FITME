@@ -5,11 +5,11 @@ html, body, [class*="css"] {
 }
 
 [data-testid="stSidebar"] .element-container {
-    margin-bottom: 16px !important;
+    margin-bottom: 10px !important;
 }
 
 [data-testid="stSidebar"] * {
-    font-size: 1.08rem !important;
+    font-size: 0.5rem !important;
 }
 
 /* Titulos */
@@ -44,4 +44,13 @@ section[data-testid="stSidebar"] h1,h2,h3 {
     position: fixed;
     bottom: 20px;
     left: 20px;
+}
+
+/* Texto sidebar selección */
+[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] * {
+    color: #303243 !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] span {
+    color: #303243 !important;
 }
