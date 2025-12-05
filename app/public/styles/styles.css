@@ -11,3 +11,30 @@ html, body, [class*="css"] {
 [data-testid="stSidebar"] * {
     font-size: 1.08rem !important;
 }
+
+/* Titulos */
+h1, h2, h3, .stMetric label {
+    color: #C6390D !important;
+}
+
+/* Mes */
+div[data-testid="stMetricValue"] {
+    color: #303243 !important;
+    font-weight: 900 !important;
+}
+
+/* Metrica texto */
+div[data-testid="stMetricDelta"] {
+    color: #FD5E2D !important;
+}
+
+/* Headers de sidebar */
+section[data-testid="stSidebar"] h1,h2,h3 {
+    color: #303243 !important;
+}
+
+/* Botones */
+.stButton>button, .stMultiSelect>div>div {
+    border-radius: 10px !important;
+    border-color: #303243 !important;
+}
