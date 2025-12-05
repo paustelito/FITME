@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 
-st.title("INICIO")
+st.title("Inicio")
 
 # cargar los datos
 @st.cache_data # esto hace que la app sea rápida
