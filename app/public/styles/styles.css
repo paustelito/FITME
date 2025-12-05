@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+[data-testid="stSidebar"] .element-container {
+    margin-bottom: 10px !important;
+}
+
+[data-testid="stSidebar"] * {
+    font-size: 0.5rem !important;
+}
+
+/* Titulos */
+h2, h3, .stMetric label {
+    color: #C6390D !important;
+}
+
+/* Mes */
+div[data-testid="stMetricValue"] {
+    color: #303243 !important;
+    font-weight: 900 !important;
+}
+
+/* Metrica texto */
+div[data-testid="stMetricDelta"] {
+    color: #FD5E2D !important;
+}
+
+/* Headers de sidebar */
+section[data-testid="stSidebar"] h1,h2,h3 {
+    color: #303243 !important;
+}
+
+/* Botones */
+.stButton>button, .stMultiSelect>div>div {
+    border-radius: 10px !important;
+    border-color: #303243 !important;
+}
+
+/* Logo en sidebar */
+.sidebar-logo {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+/* Texto sidebar selección */
+[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] * {
+    color: #303243 !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] span {
+    color: #303243 !important;
+}
