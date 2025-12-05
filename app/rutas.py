@@ -23,6 +23,8 @@ naranja = "#ff7c43"
 colores = [azul_marino, naranja] * (len(tabla_rutas_criticas) // 2 + 1)
 colores = colores[:len(tabla_rutas_criticas)]
 
+tabla_categorias.drop(tabla_categorias[tabla_categorias["Categoria_Oficial"] == "Error"].index, inplace=True)
+
 # --- GRÁFICA ---
 fig, ax = plt.subplots(figsize=(8, 5))
 
