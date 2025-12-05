@@ -1,8 +1,11 @@
 # LOGIMAYAB DATA
 ## Presentado por FITME
 Paulina Almada Martínez (A01710029)
+
 Mauricio Benavente Revuelta (A01705898)
+
 Sol Venecia Ramos Vallejo (A01066646)
+
 Daniela Isabel Tapia Martínez (A01710768)
 
 ## ¿Cuál fue nuestro enfoque?
@@ -88,4 +91,4 @@ Utilizamos Plotly por su integración con Streamlit. Permite generar gráficas c
 ### **Pandas**: Para la manipulación y análisis de datos.
 Utilizamos Pandas porque es una de las librerías más poderosas para el manejo de datos con Python. La estructura de los dataframes, además, se adecua muy bien en forma de tablas para desplegar información en Streamlit al igual que en el entrenamiento y evaluación de modelos con Scikit-learn.
 ### **Scikit-learn**: Para tareas de machine learning y análisis estadístico.
-Utilizamos Sckiti-learn porque es una librería que tiene una gran variedad de distintos modelos de machine learning con una implementación, fine-tuning y evaluación simple e intuitiva. Pudimos generar modelos confiables con poco código. Además, se integra bien con el resto de nuestro ambiente de desarrollo del proyecto. En específico, utilizamos RandomForest porque buscamos un modelo predictivo que respondiera a los features, en este caso de ralentí en rutas, pero no tuviera overfitting.
+Utilizamos Sckikit-learn porque es una librería que tiene una gran variedad de distintos modelos de machine learning con una implementación, fine-tuning y evaluación simple e intuitiva. Pudimos generar modelos confiables con poco código. Además, se integra bien con el resto de nuestro ambiente de desarrollo del proyecto. En específico, utilizamos RandomForest porque buscamos un modelo predictivo que respondiera a los features, en este caso de ralentí en rutas, pero no tuviera overfitting.
