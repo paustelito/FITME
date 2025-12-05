@@ -1,9 +1,10 @@
 import streamlit as st
+import base64
 
 # Config básica de la página
 st.set_page_config(
-    page_title="MAYAB-METRICS",
-    page_icon="./public/images/favicon.png",
+    page_title="LOGIMAYAB DATA",
+    page_icon="./public/images/favicon_orange.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -28,5 +29,22 @@ pg = st.navigation([
     unidades,
     demanda,
 ])
+
+# Logo
+
+def img_to_base64(path):
+    with open(path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
+logo_base64 = img_to_base64("public/images/logo_clear.png")
+
+st.sidebar.markdown(
+    f"""
+    <div class="sidebar-logo">
+        <img src="data:image/png;base64,{logo_base64}" width={200}>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 pg.run()

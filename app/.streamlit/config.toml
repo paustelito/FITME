@@ -4,6 +4,6 @@ backgroundColor = "#F9FAFD"
 linkColor = "#C6390D"
 
 [theme.sidebar]
-primaryColor = "#FD5E2D"
-backgroundColor = "#303243"
+primaryColor = "#303243"
+backgroundColor = "#FD5E2D"
 textColor = "#F9FAFD"

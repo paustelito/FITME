@@ -1,3 +1,3 @@
 import streamlit as st
 
-st.write("# Bienvenido a MAYAB-METRICS")
+st.write("# Revisa el estado actual")
