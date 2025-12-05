@@ -16,7 +16,7 @@ def load_css():
 load_css()
 
 # Páginas del sidebar
-inicio = st.Page("inicio.py", title="Estado Actual")
+inicio = st.Page("inicio.py", title="Resumen")
 rutas = st.Page("rutas.py", title="Rutas")
 unidades = st.Page("unidades.py", title="Unidades")
 demanda = st.Page("demanda.py", title="Demanda")
