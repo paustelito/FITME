@@ -18,14 +18,14 @@ load_css()
 # Páginas del sidebar
 inicio = st.Page("inicio.py", title="Estado Actual")
 rutas = st.Page("rutas.py", title="Rutas")
-asignacion = st.Page("asignacion.py", title="Asignación")
+unidades = st.Page("unidades.py", title="Unidades")
 demanda = st.Page("demanda.py", title="Demanda")
 
 # Navegación entre páginas
 pg = st.navigation([
     inicio,
     rutas,
-    asignacion,
+    unidades,
     demanda,
 ])
 
