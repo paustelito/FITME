@@ -11,8 +11,7 @@ st.set_page_config(
     page_title="Dashboard Logística"
 )
 
-
-st.title("Inicio")
+st.title("Resumen")
 
 # cargar los datos
 @st.cache_data # esto hace que la app sea rápida
@@ -25,8 +24,6 @@ def load_data():
     return df_var, df_full
 
 df_var, df_full = load_data()
-
-# métricas
 
 # métricas de Variabilidad
 df_var['mean_time_safe'] = df_var['mean_time'].replace(0, np.nan)
@@ -48,8 +45,6 @@ pct_reduccion = (ahorro_horas / proyeccion_total) * 100
 
 
 # dashboard
-
-st.title("RESUMEN")
 st.markdown("### KEY INSIGHTS")
 
 # key cards
