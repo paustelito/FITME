@@ -1,2 +1,13 @@
-# FITME
-Este repositorio incluye el código fuente y el datalake para un dashboard interactivo desarrollado para LogiMayab como parte de la concentración TI3002C.501
+# LOGIMAYAB DATA
+## Presentado por FITME
+Paulina Almada Martínez (A01710029)
+Mauricio Benavente Revuelta (A01705898)
+Sol Venecia Ramos Vallejo (A01066646)
+Daniela Isabel Tapia Martínez (A01710768)
+
+## ¿Cuál fue nuestro enfoque?
+
+## ¿Cómo corre la aplicación?
+
+## ¿Qué tecnologías usamos?
+
